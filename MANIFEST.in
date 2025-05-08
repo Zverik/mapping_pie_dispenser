@@ -1,0 +1,2 @@
+graft mpd/templates
+graft mpd/static
