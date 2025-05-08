@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% if not logged_in %}
+  <p><a href="{{ url_for('party.login') }}">Sign in to create and edit parties.</a></p>
+  {% else %}
+  <p><a href="{{ url_for('party.create') }}">Create a new mapping party</a>
+  or <a href="{{ url_for('party.logout') }}">log out</a>.</p>
+  {% endif %}
+
+  <h2>Mapping Parties</h2>
+  <ul>
+    {% for p in parties %}
+    {% if (p.scheduled and p.scheduled >= today) or p.owner_id == user_id %}
+    <li>
+      <a href="{{ url_for('party.party', party_id=p.party_id) }}">{{ p.title }}</a>
+      {% if p.scheduled %}({{ p.scheduled }}){% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+{% endblock %}

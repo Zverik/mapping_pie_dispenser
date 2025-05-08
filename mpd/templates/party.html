@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block header %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>#map { width: 100%; height: 400px; }</style>
+{% endblock %}
+{% block content %}
+  <h1>{{ party.title }}</h1>
+
+  {% if party.scheduled %}
+  <p>Coming up {{ party.scheduled }}!</p>
+  {% endif %}
+
+  {% if pie %}
+  <h2>Pieces</h2>
+  <div id="map"></div>
+  {% else %}
+  <h2>No pie pieces yet.</h2>
+  {% endif %}
+
+  {% if is_owner %}
+  <h2>Edit party</h2>
+  <p><a href="{{ url_for('party.edit_pie', party_id=party.party_id) }}">Edit Pie</a></p>
+  <form action="{{ url_for('party.party', party_id=party.party_id) }}" method="post" enctype="multipart/form-data">
+    <label for="f_scheduled">Scheduled: </label><input type="date" id="f_scheduled" name="scheduled" value="{{ party.scheduled }}"/> (party will be hidden if not set)<br>
+    <label for="f_title">New title: </label><input type="text" id="f_title" name="title" value="{{ party.title }}" /><br>
+    <label for="f_json">Upload GeoJSON: </label><input type="file" id="f_json" name="json" accept=".json,.geojson,application/json" /><br>
+    <input type="submit" value="Update">
+  </form>
+  {% endif %}
+
+  <p><a href="{{ url_for('party.list') }}">Back to the list</a></p>
+  <p><a style="font-size: 8px; color: red;" href="{{ url_for('party.delete_party', party_id=party.party_id) }}">Delete</a></p>
+
+<script>
+  var map = L.map('map', {dragging: false, scrollWheelZoom: false, zoomSnap: 0.25});
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  var layer = L.geoJson({{pie|tojson}}, {
+    onEachFeature: (feature, layer) => {
+      layer.on('click', (e) => {
+        window.location = '{{ url_for('party.piece', party_id=party.party_id, piece_id=111) }}'.replaceAll('111', feature.properties.id);
+      });
+      layer.bindTooltip(feature.properties.id, {permanent: true});
+  }}).addTo(map);
+  map.fitBounds(layer.getBounds(), {animate: false});
+</script>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Creating a new mapping party</h1>
+<form action="{{ url_for('party.create') }}" method="post">
+  <label for="f_title">Title: </label><input type="text" size="50" id="f_title" name="title" autofocus />
+  <input type="submit" value="Create">
+</form>
+{% endblock %}
