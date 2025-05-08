@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <title>{% if party %}{% if piece %}Piece {{piece.properties.id}} — {% endif %}{{ party.title }}{% else %}Mapping Parties{% endif %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block header %}{% endblock %}
     <style>.flashes { color: red; }</style>
   </head>
