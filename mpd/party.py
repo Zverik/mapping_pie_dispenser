@@ -306,8 +306,8 @@ def piece_ed_plugin(party_id, piece_id):
 
     # Now prepare the zip file
     piece['properties']['fill-opacity'] = 0.0
-    piece['properties']['stroke-width'] = 3
-    piece['properties']['stroke-color'] = '#3388ff'
+    piece['properties']['stroke-width'] = 3.0
+    piece['properties']['stroke'] = '#3388ff'
     pluginyaml = f'''---
 id: mpd_{party_id}_{piece_id}
 name: Piece {piece_id} of {party['title']}
