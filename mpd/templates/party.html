@@ -30,7 +30,9 @@
   {% endif %}
 
   <p><a href="{{ url_for('party.list') }}">Back to the list</a></p>
+  {% if is_owner %}
   <p><a style="font-size: 8px; color: red;" href="{{ url_for('party.delete_party', party_id=party.party_id) }}">Delete</a></p>
+  {% endif %}
 
 <script>
   var map = L.map('map', {dragging: false, scrollWheelZoom: false, zoomSnap: 0.25});
@@ -38,7 +40,7 @@
   var layer = L.geoJson({{pie|tojson}}, {
     onEachFeature: (feature, layer) => {
       layer.on('click', (e) => {
-        window.location = '{{ url_for('party.piece', party_id=party.party_id, piece_id=111) }}'.replaceAll('111', feature.properties.id);
+        window.location = '{{ url_for('party.piece', party_id=party.party_id, piece_id=999999) }}'.replaceAll('999999', feature.properties.id);
       });
       layer.bindTooltip(feature.properties.id, {permanent: true});
   }}).addTo(map);
