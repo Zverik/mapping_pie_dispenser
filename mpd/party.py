@@ -272,7 +272,7 @@ def piece(party_id, piece_id):
     everydoor_url = url_for(
         'party.piece_ed_plugin', party_id=party_id,
         piece_id=piece_id, _external=True)
-    everydoor_url = (f'https://every-door.app/plugin/{plugin_id(party_id, piece_id)}?'
+    everydoor_url = (f'https://plugins.every-door.app/i/my?'
                      f'url={urllib.parse.quote(everydoor_url)}&update=true')
 
     qr = qrcode.make(
